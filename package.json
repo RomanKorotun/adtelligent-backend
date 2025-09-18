@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node build/index.js",
-    "dev": "cross-env NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"wait-on build/index.js && nodemon --legacy-watch build/index.js\"",
+    "dev": "cross-env NODE_ENV=development nodemon --legacy-watch --watch src --ext ts --exec ts-node src/index.ts",
     "build": "tsc",
     "lint": "biome lint ."
   },
