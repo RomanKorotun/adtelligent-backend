@@ -5,7 +5,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node build/index.js",
     "dev": "cross-env NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"wait-on build/index.js && nodemon --legacy-watch build/index.js\"",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "biome lint ."
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "fastify": "^5.6.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.2.4",
     "@types/node": "^24.5.2",
     "concurrently": "^9.2.1",
     "nodemon": "^3.1.10",
