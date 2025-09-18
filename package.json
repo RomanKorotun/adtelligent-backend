@@ -1,0 +1,35 @@
+{
+  "name": "adtelligent-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node build/index.js",
+    "dev": "cross-env NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"tsc -w\" \"wait-on build/index.js && nodemon --legacy-watch build/index.js\"",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomanKorotun/adtelligent-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RomanKorotun/adtelligent-backend/issues"
+  },
+  "homepage": "https://github.com/RomanKorotun/adtelligent-backend#readme",
+  "description": "",
+  "dependencies": {
+    "cross-env": "^10.0.0",
+    "fastify": "^5.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2",
+    "wait-on": "^9.0.0"
+  }
+}
