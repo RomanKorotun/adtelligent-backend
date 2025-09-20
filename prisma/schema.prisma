@@ -1,0 +1,29 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Feed {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String   @unique
+  createdAt DateTime @default(now())
+  items     Article[]
+}
+
+model Article {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  feedId      String   @db.ObjectId
+  title       String
+  description String
+  link        String   @unique
+  isoDate     DateTime
+  createdAt   DateTime @default(now())
+  feed        Feed     @relation(fields: [feedId], references: [id])
+}
+
+
