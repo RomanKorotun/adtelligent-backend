@@ -2,6 +2,7 @@ import Fastify, { FastifyServerOptions } from "fastify";
 import AutoLoad from "@fastify/autoload";
 import { join } from "node:path";
 import configPlugin from "./config";
+import { feedRoute } from "./modules/feedParser/routes/feed.route";
 
 export type AppOptions = Partial<FastifyServerOptions>;
 
@@ -9,6 +10,7 @@ const buildApp = async (options: AppOptions = {}) => {
   const fastify = Fastify();
 
   await fastify.register(configPlugin);
+  await fastify.register(feedRoute);
 
   try {
     fastify.decorate("pluginLoaded", (pluginName: string) => {
@@ -21,7 +23,6 @@ const buildApp = async (options: AppOptions = {}) => {
       options: options,
       ignorePattern: /^((?!plugin).)*$/,
     });
-
     fastify.log.info("Plugins loaded successfully");
   } catch (error) {
     fastify.log.error("Error in autoload:", error);
