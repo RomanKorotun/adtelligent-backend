@@ -21,7 +21,7 @@ model Article {
   title       String
   description String
   link        String   @unique
-  isoDate     DateTime
+  isoDate     String
   createdAt   DateTime @default(now())
   feed        Feed     @relation(fields: [feedId], references: [id])
 }

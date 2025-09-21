@@ -1,11 +1,12 @@
 services:
   node-server:
-    image: node:24
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: node-server
+    image: node:24
     ports:
-      - 3000:3000
+      - "3000:3000"
     env_file: .env
     volumes:
       - .:/app
@@ -15,15 +16,24 @@ services:
 
   mongo:
     image: mongo:7
+    container_name: mongo
     restart: always
     ports:
       - "27017:27017"
-    env_file: .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    command: ["mongod", "--replSet", "rs0"]
     volumes:
       - mongo-data:/data/db
+
+  mongo-init-replica:
+    image: mongo:7
+    container_name: mongo-init-replica
+    depends_on:
+      - mongo
+    restart: "no"
+    entrypoint: >
+      bash -c "sleep 5 &&
+      mongosh --host mongo:27017
+      --eval 'rs.initiate({_id: \"rs0\", members: [{ _id: 0, host: \"mongo:27017\"}]})'"
 
 volumes:
   mongo-data:

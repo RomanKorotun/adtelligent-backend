@@ -1,7 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
-export const createFeed = async (prisma: PrismaClient, url: string) => {
-  return prisma.feed.create({ data: { url } });
+export const createOrUpdateFeed = async (prisma: PrismaClient, url: string) => {
+  return prisma.feed.upsert({
+    where: { url },
+    update: { url },
+    create: { url },
+  });
 };
 
 export const findFeedByUrl = async (prisma: PrismaClient, url: string) => {

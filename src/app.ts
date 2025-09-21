@@ -6,7 +6,7 @@ import configPlugin from "./config";
 export type AppOptions = Partial<FastifyServerOptions>;
 
 const buildApp = async (options: AppOptions = {}) => {
-  const fastify = Fastify();
+  const fastify = Fastify({ logger: true });
 
   await fastify.register(configPlugin);
 
@@ -21,8 +21,14 @@ const buildApp = async (options: AppOptions = {}) => {
       options: options,
       ignorePattern: /^((?!plugin).)*$/,
     });
-
     fastify.log.info("Plugins loaded successfully");
+
+    await fastify.register(AutoLoad, {
+      dir: join(__dirname, "modules"),
+      options,
+      dirNameRoutePrefix: false,
+    });
+    fastify.log.info("Routes loaded successfully");
   } catch (error) {
     fastify.log.error("Error in autoload:", error);
     throw error;
