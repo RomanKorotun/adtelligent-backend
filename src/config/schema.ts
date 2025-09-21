@@ -5,10 +5,8 @@ export const EnvSchema = {
   properties: {
     PORT: { type: "number" },
     HOST: { type: "string" },
-    MONGO_USERNAME: { type: "string" },
-    MONGO_PASSWORD: { type: "string" },
   },
-  required: ["PORT", "HOST", "MONGO_USERNAME", "MONGO_PASSWORD"],
+  required: ["PORT", "HOST"],
   additionalProperties: false,
 } as const;
 

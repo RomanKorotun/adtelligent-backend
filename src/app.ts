@@ -1,16 +1,25 @@
 import Fastify, { FastifyServerOptions } from "fastify";
 import AutoLoad from "@fastify/autoload";
 import { join } from "node:path";
+import ajvFormats from "ajv-formats";
 import configPlugin from "./config";
-import { feedRoute } from "./modules/feedParser/routes/feed.route";
 
 export type AppOptions = Partial<FastifyServerOptions>;
 
 const buildApp = async (options: AppOptions = {}) => {
-  const fastify = Fastify();
+  const fastify = Fastify({
+    ajv: {
+      customOptions: {
+        allErrors: true,
+        removeAdditional: false,
+        coerceTypes: true,
+        useDefaults: true,
+      },
+      plugins: [ajvFormats],
+    },
+  });
 
   await fastify.register(configPlugin);
-  await fastify.register(feedRoute);
 
   try {
     fastify.decorate("pluginLoaded", (pluginName: string) => {
@@ -24,6 +33,13 @@ const buildApp = async (options: AppOptions = {}) => {
       ignorePattern: /^((?!plugin).)*$/,
     });
     fastify.log.info("Plugins loaded successfully");
+
+    await fastify.register(AutoLoad, {
+      dir: join(__dirname, "modules"),
+      options,
+      dirNameRoutePrefix: false,
+    });
+    fastify.log.info("Routes loaded successfully");
   } catch (error) {
     fastify.log.error("Error in autoload:", error);
     throw error;

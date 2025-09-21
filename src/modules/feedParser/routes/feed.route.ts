@@ -1,12 +1,17 @@
-import { FastifyInstance } from "fastify";
+import { FastifyPluginAsync } from "fastify";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
 import { FeedQuery } from "../types/feed-query.types";
+import { getFeed } from "../services/feed.service";
+import { getFeedDataSchema } from "../schemas/getFeedData.schema";
 
-export async function feedRoute(fastify: FastifyInstance) {
+const feedRoute: FastifyPluginAsync = async (fastify) => {
   const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
 
-  route.get("/feed", {}, async (request, reply) => {
+  route.get("/feed", { schema: getFeedDataSchema }, async (request, reply) => {
     const { url, force } = request.query as FeedQuery;
-    reply.send({ hello: "feed" });
+    const data = await getFeed(fastify.prisma, url, force);
+    reply.send(data);
   });
-}
+};
+
+export default feedRoute;

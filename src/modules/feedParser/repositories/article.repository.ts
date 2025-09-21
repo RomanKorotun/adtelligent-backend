@@ -24,5 +24,11 @@ export const getArticlesByFeedId = async (
   return prisma.article.findMany({
     where: { feedId },
     orderBy: { isoDate: "desc" },
+    select: {
+      title: true,
+      description: true,
+      link: true,
+      isoDate: true,
+    },
   });
 };

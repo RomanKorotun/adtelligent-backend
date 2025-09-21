@@ -1,4 +1,4 @@
-FROM  node:24
+FROM node:24
 
 WORKDIR /app
 
@@ -8,8 +8,10 @@ RUN yarn
 
 COPY . ./
 
+RUN npx prisma generate
+
 ENV NODE_ENV=development
 
 EXPOSE 3000
 
-CMD ["yarn","dev"]
+CMD ["yarn", "dev"]
