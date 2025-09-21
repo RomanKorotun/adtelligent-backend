@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { ParsedArticle } from "../types/article.types";
 import {
   createOrUpdateFeed,
@@ -10,14 +9,17 @@ import {
 } from "../repositories/article.repository";
 import { parseFeed } from "../utils/rssParser";
 import { sortArticlesByDateDesc } from "../utils/sortArticles";
+import { FastifyInstance } from "fastify";
 
 const DEFAULT_URL = "https://feeds.bbci.co.uk/news/rss.xml";
 
 export const getFeed = async (
-  prisma: PrismaClient,
+  fastify: FastifyInstance,
   url?: string,
   force?: string
 ): Promise<ParsedArticle[]> => {
+  const prisma = fastify.prisma;
+
   const feedUrl = url || DEFAULT_URL;
   const forceFlag = force === "1";
 

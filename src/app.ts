@@ -1,23 +1,12 @@
 import Fastify, { FastifyServerOptions } from "fastify";
 import AutoLoad from "@fastify/autoload";
 import { join } from "node:path";
-import ajvFormats from "ajv-formats";
 import configPlugin from "./config";
 
 export type AppOptions = Partial<FastifyServerOptions>;
 
 const buildApp = async (options: AppOptions = {}) => {
-  const fastify = Fastify({
-    ajv: {
-      customOptions: {
-        allErrors: true,
-        removeAdditional: false,
-        coerceTypes: true,
-        useDefaults: true,
-      },
-      plugins: [ajvFormats],
-    },
-  });
+  const fastify = Fastify({ logger: true });
 
   await fastify.register(configPlugin);
 

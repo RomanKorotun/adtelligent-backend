@@ -1,4 +1,4 @@
-export const getFeedDataSchema = {
+export const feedDataSchema = {
   tags: ["feed"],
   summary: "Get feed articles",
   description: "Returns parsed or cached articles from RSS feed",
@@ -7,8 +7,8 @@ export const getFeedDataSchema = {
     additionalProperties: false,
     required: ["url"],
     properties: {
-      url: { type: "string", nullable: true, format: "uri" },
-      force: { type: "string", enum: ["0", "1"], nullable: true },
+      url: { type: "string", format: "uri" },
+      force: { type: "string", enum: ["0", "1"], default: "1" },
     },
   },
   response: {
