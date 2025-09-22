@@ -1,10 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import { ParsedArticle } from "../types/article.types";
+import { Article, PrismaClient } from "@prisma/client";
 
 export const createArticles = async (
   prisma: PrismaClient,
   feedId: string,
-  items: ParsedArticle[]
+  items: Pick<Article, "title" | "description" | "link" | "isoDate">[]
 ) => {
   return prisma.article.createMany({
     data: items.map((item) => ({
@@ -25,6 +24,7 @@ export const getArticlesByFeedId = async (
     where: { feedId },
     orderBy: { isoDate: "desc" },
     select: {
+      id: true,
       title: true,
       description: true,
       link: true,
