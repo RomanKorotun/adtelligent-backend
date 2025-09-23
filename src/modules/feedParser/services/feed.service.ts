@@ -25,10 +25,6 @@ export const getFeed = async (
   const feedUrl = url || DEFAULT_URL;
   const forceFlag = force === "1";
 
-  console.log(force);
-
-  console.log("forceFlag", forceFlag);
-
   if (forceFlag) {
     const parsedItems = await parseFeed(feedUrl);
     const feed = await createOrUpdateFeed(prisma, feedUrl);
