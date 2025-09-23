@@ -5,8 +5,10 @@ export const EnvSchema = {
   properties: {
     PORT: { type: "number" },
     HOST: { type: "string" },
+    JWT_SECRET: { type: "string" },
+    JWT_TIME: { type: "number" },
   },
-  required: ["PORT", "HOST"],
+  required: ["PORT", "HOST", "JWT_SECRET", "JWT_TIME"],
   additionalProperties: false,
 } as const;
 

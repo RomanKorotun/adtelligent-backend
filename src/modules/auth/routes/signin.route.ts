@@ -1,20 +1,20 @@
 import { FastifyPluginAsync } from "fastify";
 import { JsonSchemaToTsProvider } from "@fastify/type-provider-json-schema-to-ts";
-import { signupSchema } from "../schemas/signup.schema";
-import { signupUser } from "../services/signup.service";
+import { signinUser } from "../services/signin.service";
+import { signinSchema } from "../schemas/signin.schema";
 
-const signupRoute: FastifyPluginAsync = async (fastify) => {
+const signinRoute: FastifyPluginAsync = async (fastify) => {
   const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
 
   route.post(
-    "/auth/signup",
-    { schema: signupSchema },
+    "/auth/signin",
+    { schema: signinSchema },
     async (request, reply) => {
       const body = request.body;
-      const user = await signupUser(fastify, reply, body);
+      const user = await signinUser(fastify, reply, body);
       reply.send(user);
     }
   );
 };
 
-export default signupRoute;
+export default signinRoute;

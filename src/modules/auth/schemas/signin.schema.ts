@@ -1,20 +1,14 @@
 import { FromSchema } from "json-schema-to-ts";
 
-export const signupSchema = {
+export const signinSchema = {
   tags: ["auth"],
-  summary: "User registration",
-  description: "Register a new user",
+  summary: "User login",
+  description: "Logs in a user and returns username and email",
   body: {
     type: "object",
-    required: ["username", "email", "password"],
+    required: ["email", "password"],
     additionalProperties: false,
     properties: {
-      username: {
-        type: "string",
-        minLength: 3,
-        maxLength: 20,
-        description: "Username must be between 3 and 20 characters",
-      },
       email: {
         type: "string",
         format: "email",
@@ -23,21 +17,18 @@ export const signupSchema = {
       password: {
         type: "string",
         minLength: 6,
-        pattern: "^(?=.*[A-Z])(?=.*\\d).+$",
-        description:
-          "Password must include at least one digit and one uppercase letter",
+        description: "User password",
       },
     },
   },
   response: {
-    201: {
-      description: "User created successfully",
+    200: {
+      description: "User logged in successfully",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              id: { type: "string" },
               username: { type: "string" },
               email: { type: "string", format: "email" },
             },
@@ -62,16 +53,16 @@ export const signupSchema = {
         },
       },
     },
-    409: {
-      description: "Conflict",
+    401: {
+      description: "Unauthorized",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              statusCode: { type: "number", example: 409 },
-              error: { type: "string", example: "Conflict" },
-              message: { type: "string", example: "Email already registered" },
+              statusCode: { type: "number", example: 401 },
+              error: { type: "string", example: "Unauthorized" },
+              message: { type: "string", example: "Invalid email or password" },
             },
             required: ["statusCode", "error", "message"],
           },
@@ -97,4 +88,4 @@ export const signupSchema = {
   },
 } as const;
 
-export type SignupBody = FromSchema<typeof signupSchema.body>;
+export type SigninBody = FromSchema<typeof signinSchema.body>;

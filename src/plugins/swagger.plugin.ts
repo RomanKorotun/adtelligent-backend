@@ -19,7 +19,6 @@ export default fp(async (fastify) => {
           },
         },
       },
-      security: [{ cookieAuth: [] }],
     },
   });
 
