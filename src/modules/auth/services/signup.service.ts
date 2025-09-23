@@ -8,10 +8,8 @@ import { User } from "@prisma/client";
 export const signupUser = async (
   fastify: FastifyInstance,
   reply: FastifyReply,
-  body: SignupBody
+  { username, email, password }: SignupBody
 ): Promise<Pick<User, "username" | "email">> => {
-  const { username, email, password } = body;
-
   const prisma = fastify.prisma;
 
   const existing = await findUserByEmail(prisma, email);
