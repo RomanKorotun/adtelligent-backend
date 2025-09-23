@@ -5,7 +5,7 @@ import {
 import {
   createArticles,
   getArticlesByFeedId,
-} from "../repositories/article.repository";
+} from "../../articleParser/repositories/article.repository";
 import { parseFeed } from "../utils/rssParser";
 
 import { FastifyInstance } from "fastify";
