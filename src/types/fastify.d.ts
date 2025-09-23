@@ -10,8 +10,4 @@ declare module "fastify" {
     prisma: PrismaClient;
     generateToken: (payload: TokenPayload) => string;
   }
-
-  interface FastifyRequest {
-    user: User;
-  }
 }
