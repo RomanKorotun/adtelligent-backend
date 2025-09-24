@@ -20,9 +20,7 @@ const articleRoute: FastifyPluginAsync = async (fastify) => {
         throw fastify.httpErrors.badRequest("Некоректний формат id");
       }
 
-      const parsedArticle = await getParsedArticleById(fastify, id);
-
-      reply.send(parsedArticle);
+      reply.send(await getParsedArticleById(fastify, id));
     }
   );
 };

@@ -1,8 +1,8 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
 
 export const parseUnianArticle = async (url: string) => {
-  const { data } = await axios.get(url);
+  const res = await fetch(url);
+  const data = await res.text();
   const $ = cheerio.load(data);
 
   const title = $("h1").text().trim();

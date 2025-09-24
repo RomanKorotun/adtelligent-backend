@@ -15,8 +15,7 @@ const feedRoute: FastifyPluginAsync = async (fastify) => {
     },
     async (request, reply) => {
       const { url, force } = request.query;
-      const data = await getFeed(fastify, url, force);
-      reply.send(data);
+      reply.send(await getFeed(fastify, url, force));
     }
   );
 };
