@@ -29,7 +29,7 @@ model Article {
   feedId      String   @db.ObjectId
   title       String
   description String
-  link        String   @unique
+  link        String   
   isoDate     String
   createdAt   DateTime @default(now())
   feed        Feed     @relation(fields: [feedId], references: [id])

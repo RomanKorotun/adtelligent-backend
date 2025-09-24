@@ -9,5 +9,6 @@ declare module "fastify" {
     pluginLoaded: (pluginName: string) => void;
     prisma: PrismaClient;
     generateToken: (payload: TokenPayload) => string;
+    validateObjectId(id: string): boolean;
   }
 }
