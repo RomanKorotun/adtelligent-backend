@@ -4,6 +4,7 @@ import {
 } from "../repositories/feed.repository";
 import {
   createArticles,
+  deleteArticlesByFeedId,
   getArticlesByFeedId,
 } from "../../articleParser/repositories/article.repository";
 import { parseFeed } from "../utils/rssParser";
@@ -28,7 +29,7 @@ export const getFeed = async (
   if (forceFlag) {
     const parsedItems = await parseFeed(feedUrl);
     const feed = await createOrUpdateFeed(prisma, feedUrl);
-    await prisma.article.deleteMany({ where: { feedId: feed.id } });
+    await deleteArticlesByFeedId(prisma, feed.id);
     await createArticles(prisma, feed.id, parsedItems);
     const articlesFromDb = await getArticlesByFeedId(prisma, feed.id);
     return articlesFromDb;

@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-import { parseUnianArticle } from "../utils/parsers/unianParser";
 import { parseHtmlArticle } from "../utils/parsers";
 
 export const getParsedArticleById = async (
