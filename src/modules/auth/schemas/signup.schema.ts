@@ -14,11 +14,13 @@ export const signupSchema = {
         minLength: 3,
         maxLength: 20,
         description: "Username must be between 3 and 20 characters",
+        example: "John",
       },
       email: {
         type: "string",
         format: "email",
         description: "Valid email address",
+        example: "john@example.com",
       },
       password: {
         type: "string",
@@ -26,6 +28,7 @@ export const signupSchema = {
         pattern: "^(?=.*[A-Z])(?=.*\\d).+$",
         description:
           "Password must include at least one digit and one uppercase letter",
+        example: "J1234567",
       },
     },
   },
@@ -37,9 +40,12 @@ export const signupSchema = {
           schema: {
             type: "object",
             properties: {
-              id: { type: "string" },
-              username: { type: "string" },
-              email: { type: "string", format: "email" },
+              username: { type: "string", example: "John" },
+              email: {
+                type: "string",
+                format: "email",
+                example: "john@example.com",
+              },
             },
             required: ["username", "email"],
           },

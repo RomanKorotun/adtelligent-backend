@@ -13,11 +13,13 @@ export const signinSchema = {
         type: "string",
         format: "email",
         description: "Valid email address",
+        example: "john@example.com",
       },
       password: {
         type: "string",
         minLength: 6,
         description: "User password",
+        example: "J1234567",
       },
     },
   },
@@ -29,8 +31,12 @@ export const signinSchema = {
           schema: {
             type: "object",
             properties: {
-              username: { type: "string" },
-              email: { type: "string", format: "email" },
+              username: { type: "string", example: "John" },
+              email: {
+                type: "string",
+                format: "email",
+                example: "john@example.com",
+              },
             },
             required: ["username", "email"],
           },
