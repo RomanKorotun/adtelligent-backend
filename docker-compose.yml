@@ -2,7 +2,7 @@ services:
   node-server:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: node-server
     image: node:24
     ports:
