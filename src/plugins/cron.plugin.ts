@@ -7,16 +7,18 @@ const cronPlugin: FastifyPluginAsync = async (fastify) => {
     jobs: [
       {
         name: "update-feed",
-        cronTime: "0 * * * *",
+        cronTime: fastify.config.CRON_UPDATE_FEED,
         start: true,
         onTick: async () => {
           try {
             const startTime = Date.now();
             await updateFeed(fastify);
             const duration = Date.now() - startTime;
-            fastify.log.info(`Cron: фід успішно оновлено за ${duration} мс`);
+            fastify.log.info(
+              `Cron: feed updated successfully in ${duration} ms`
+            );
           } catch (err) {
-            fastify.log.error("Cron помилка при оновленні фіду:", err);
+            fastify.log.error("Cron error while updating feed:", err);
           }
         },
       },
