@@ -7,8 +7,9 @@ export const EnvSchema = {
     HOST: { type: "string" },
     JWT_SECRET: { type: "string" },
     JWT_TIME: { type: "number" },
+    CRON_UPDATE_FEED: { type: "string" },
   },
-  required: ["PORT", "HOST", "JWT_SECRET", "JWT_TIME"],
+  required: ["PORT", "HOST", "JWT_SECRET", "JWT_TIME", "CRON_UPDATE_FEED"],
   additionalProperties: false,
 } as const;
 

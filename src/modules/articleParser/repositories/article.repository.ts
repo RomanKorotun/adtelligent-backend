@@ -32,3 +32,10 @@ export const getArticlesByFeedId = async (
     },
   });
 };
+
+export const deleteArticlesByFeedId = async (
+  prisma: PrismaClient,
+  feedId: string
+) => {
+  return prisma.article.deleteMany({ where: { feedId } });
+};
