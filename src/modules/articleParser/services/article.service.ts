@@ -12,7 +12,7 @@ export const getParsedArticleById = async (
   });
 
   if (!article) {
-    throw fastify.httpErrors.badRequest("Article not found or ID is invalid");
+    throw fastify.httpErrors.notFound("Article not found or ID is invalid");
   }
 
   return await parseHtmlArticle(article.link);

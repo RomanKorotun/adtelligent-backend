@@ -8,11 +8,14 @@ const signupRoute: FastifyPluginAsync = async (fastify) => {
 
   route.post(
     "/auth/signup",
-    { schema: signupSchema },
+    {
+      schema: signupSchema,
+    },
     async (request, reply) => {
+      console.log("BODY:", request.body);
       const body = request.body;
       const user = await signupUser(fastify, reply, body);
-      reply.send(user);
+      reply.status(201).send(user);
     }
   );
 };

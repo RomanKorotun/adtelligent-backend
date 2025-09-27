@@ -5,11 +5,10 @@ export const feedDataSchema = {
   security: [{ cookieAuth: [] }],
   querystring: {
     type: "object",
-    required: ["url"],
     additionalProperties: false,
     properties: {
       url: { type: "string", format: "uri" },
-      force: { type: "string", enum: ["0", "1"], default: "1" },
+      force: { type: "number", enum: [0, 1] },
     },
   },
   response: {
@@ -27,11 +26,13 @@ export const feedDataSchema = {
         },
         required: ["id", "title", "description", "link", "isoDate"],
         example: {
-          id: "507f1f77bcf86cd799439011",
-          title: "Fastify 4 Released",
-          description: "Fastify 4 brings major performance improvements.",
-          link: "https://fastify.io/blog/fastify-4",
-          isoDate: "2025-09-22T07:29:00.584Z",
+          id: "68d7fbf1b715f5025845e74c",
+          title:
+            "Радбез ООН збирається на екстренне засідання через витівки Росії",
+          description:
+            "Засідання ініціювала Естонія, воно відбудеться вже завтра.",
+          link: "https://www.unian.net/politics/radbez-oon-zasidannya-rosiya.html",
+          isoDate: "2025-09-27T18:45:00.000Z",
         },
       },
     },

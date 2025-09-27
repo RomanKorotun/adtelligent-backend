@@ -16,14 +16,14 @@ const DEFAULT_URL = "https://feeds.bbci.co.uk/news/rss.xml";
 
 export const getFeed = async (
   fastify: FastifyInstance,
-  url: string,
-  force: string
+  url: string | undefined,
+  force: number = 1
 ): Promise<
   Pick<Article, "id" | "title" | "description" | "link" | "isoDate">[]
 > => {
   const prisma = fastify.prisma;
   const feedUrl = url || DEFAULT_URL;
-  const forceFlag = force === "1";
+  const forceFlag = force === 1;
 
   try {
     if (forceFlag) {
