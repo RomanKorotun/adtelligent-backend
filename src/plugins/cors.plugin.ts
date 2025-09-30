@@ -8,7 +8,7 @@ export default fp(
     await fastify.register(fastifyCors, {
       origin: [
         "http://localhost:5173",
-        "https://adtelligent-backend-production.up.railway.app",
+        "https://adtelligent-frontend.vercel.app",
       ],
       credentials: true,
     });
