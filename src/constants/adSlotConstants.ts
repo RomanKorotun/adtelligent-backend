@@ -1,4 +1,5 @@
 export const allowedGeo = [
+  "ALL",
   "UA",
   "PL",
   "US",

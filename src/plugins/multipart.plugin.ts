@@ -6,7 +6,6 @@ const pluginName = "multipart-plugin";
 export default fp(
   async (fastify) => {
     await fastify.register(multipart, {
-      // attachFieldsToBody: true,
       limits: {
         fileSize: 2 * 1024 * 1024,
       },
