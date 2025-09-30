@@ -1,5 +1,5 @@
 import { LineItem } from "@prisma/client";
-import { Bid } from "../../services/bidHandler.service";
+import { Bid } from "../../types/bidHandler.types";
 
 export const sizeFilter = (bid: Bid, items: LineItem[]) => {
   return items.filter((item) =>

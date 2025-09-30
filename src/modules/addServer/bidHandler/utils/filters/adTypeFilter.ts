@@ -1,5 +1,5 @@
 import { LineItem } from "@prisma/client";
-import { Bid } from "../../services/bidHandler.service";
+import { Bid } from "../../types/bidHandler.types";
 
 export const adTypeFilter = (bid: Bid, items: LineItem[]): LineItem[] => {
   const type = bid.adType;
