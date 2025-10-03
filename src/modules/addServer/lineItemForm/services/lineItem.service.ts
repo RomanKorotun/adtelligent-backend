@@ -20,7 +20,7 @@ export const addLineItem = async (
     }
   }
 
-  if (!creativeFile || !creativeFile.file) {
+  if (!creativeFile?.file) {
     throw fastify.httpErrors.badRequest("creativeFile was not uploaded");
   }
 
@@ -35,14 +35,16 @@ export const addLineItem = async (
 
   await pipeline(creativeFile.file, fs.createWriteStream(filePath));
 
+  const { width, height, minCPM, maxCPM, geo, adType, frequency } = fields;
+
   const lineItemData: LineItem = {
-    width: parseInt(fields.width),
-    height: parseInt(fields.height),
-    minCPM: parseFloat(fields.minCPM),
-    maxCPM: parseFloat(fields.maxCPM),
-    geo: fields.geo,
-    adType: fields.adType,
-    frequency: fields.frequency,
+    width: parseInt(width),
+    height: parseInt(height),
+    minCPM: parseFloat(minCPM),
+    maxCPM: parseFloat(maxCPM),
+    geo: geo,
+    adType: adType,
+    frequency: frequency,
     creativePath: `/upload/${uniqueName}`,
   };
 
