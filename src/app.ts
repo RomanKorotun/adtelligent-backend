@@ -6,7 +6,7 @@ import configPlugin from "./config";
 export type AppOptions = Partial<FastifyServerOptions>;
 
 const buildApp = async (options: AppOptions = {}) => {
-  const fastify = Fastify({ logger: true });
+  const fastify = Fastify({ logger: true, trustProxy: true });
 
   await fastify.register(configPlugin);
 

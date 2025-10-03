@@ -36,3 +36,17 @@ model Article {
 }
 
 
+model LineItem {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  width        Int     
+  height       Int     
+  minCPM       Float
+  maxCPM       Float
+  geo          String
+  adType       String
+  frequency    String
+  creativePath String
+  createdAt    DateTime @default(now())
+}
+
+
