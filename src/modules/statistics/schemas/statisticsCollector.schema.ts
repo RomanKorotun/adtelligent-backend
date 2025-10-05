@@ -5,14 +5,30 @@ export const statisticsCollectorSchema = {
   summary: "Add an event to statistics",
   description: "Stores an event in the ClickHouse database",
   security: [{ cookieAuth: [] }],
+
   body: {
     type: "object",
     required: ["event", "data"],
     properties: {
-      event: { type: "string", description: "Event name/type" },
-      data: { type: "object", description: "Event payload" },
+      event: {
+        type: "string",
+        description: "Event name/type",
+      },
+      data: {
+        type: "object",
+        description: "Event payload",
+      },
+    },
+
+    example: {
+      event: "customTestEvent",
+      data: {
+        testId: "debug-001",
+        message: "This is a test event for Swagger",
+      },
     },
   },
+
   response: {
     200: {
       description: "Event successfully cached",

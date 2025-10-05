@@ -4,7 +4,7 @@ import { authenticate } from "../../../middlewares/authenticate";
 import { getStatistics } from "../services/statisticsQuery.service";
 import { statisticsQuerySchema } from "../schemas/statisticsQuery.schema";
 
-const statisticsCollectorRoute: FastifyPluginAsync = async (fastify) => {
+const statisticsQueryRoute: FastifyPluginAsync = async (fastify) => {
   const route = fastify.withTypeProvider<JsonSchemaToTsProvider>();
 
   route.post(
@@ -19,4 +19,4 @@ const statisticsCollectorRoute: FastifyPluginAsync = async (fastify) => {
   );
 };
 
-export default statisticsCollectorRoute;
+export default statisticsQueryRoute;

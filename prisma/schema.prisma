@@ -50,3 +50,18 @@ model LineItem {
 }
 
 
+
+model StaticFilter {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  filters   Json
+  createdAt DateTime @default(now())
+}
+
+model DynamicFilter {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  name      String
+  filters   Json
+  createdAt DateTime @default(now())
+}

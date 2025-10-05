@@ -30,15 +30,19 @@ export const filterMap: Record<string, () => string> = {
 
   "Fill Rate": () =>
     `round(
-        countIf(eventType = 'rendered') * 100.0 / nullIf(countDistinctIf(JSONExtractString(message, 'auctionId'), eventType = 'auctionInit'), 0),
-        2
-    ) AS fillRate`,
+    countDistinctIf(JSONExtractString(message, 'adUnitCode'), eventType = 'rendered') * 100.0
+    / nullIf(countDistinctIf(JSONExtractString(message, 'adUnitCode'), eventType = 'bidRequested'), 0),
+    2
+  ) AS fillRate`,
 
   "No Bid": () =>
     `round(
-      100 - (countIf(eventType = 'rendered') * 100.0 / nullIf(countDistinctIf(JSONExtractString(message, 'auctionId'), eventType = 'auctionInit'), 0)),
-      2
-    ) AS noBid`,
+    100 - (
+      countDistinctIf(JSONExtractString(message, 'adUnitCode'), eventType = 'rendered') * 100.0
+      / nullIf(countDistinctIf(JSONExtractString(message, 'adUnitCode'), eventType = 'bidRequested'), 0)
+    ),
+    2
+  ) AS noBid`,
 
   ECPM: () =>
     `round(

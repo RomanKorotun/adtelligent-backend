@@ -5,6 +5,8 @@ import {
   buildGroupBy,
 } from "../utils/sqlHelpers";
 import { aliasMap } from "../utils/filterMap";
+import { StatisticsQueryBody } from "../schemas/statisticsQuery.schema";
+import { convertUtcToLocalHour } from "../utils/convertUtcHourToLocal";
 
 export type Row = {
   date: string;
@@ -16,15 +18,10 @@ export const getStatistics = async (
   fastify: FastifyInstance,
   request: FastifyRequest
 ): Promise<Row[]> => {
-  const { date, filters } = request.body as {
-    date: string;
-    filters: Record<string, string[]>;
-  };
+  const { date, filters, timezone } = request.body as StatisticsQueryBody;
 
   const { whereClause, withHours } = buildWhereClause(date, filters);
-
   const selectColumns = buildSelectColumns(filters, withHours);
-
   const groupBy = buildGroupBy(withHours);
 
   const query = `
@@ -44,19 +41,20 @@ export const getStatistics = async (
       (_, i) => `${i.toString().padStart(2, "0")}:00`
     );
 
-    return hours.map((h) => {
-      const row = raw.data.find((r) => r.hour === h);
-      const resultRow: Row = { date, hour: h };
+    return hours.map((localHour) => {
+      const row = raw.data.find(
+        (r) =>
+          r.hour && convertUtcToLocalHour(date, r.hour, timezone) === localHour
+      );
 
+      const resultRow: Row = { date, hour: localHour };
       for (const key of Object.keys(filters)) {
         if (key === "Hour") continue;
         const alias = aliasMap[key];
-
-        if (alias === "maxCpmWinner" || alias === "topWinnerByCount") {
-          resultRow[alias] = row?.[alias] ?? "-";
-        } else {
-          resultRow[alias] = row?.[alias] ?? 0;
-        }
+        resultRow[alias] =
+          alias === "maxCpmWinner" || alias === "topWinnerByCount"
+            ? row?.[alias] ?? "-"
+            : row?.[alias] ?? 0;
       }
 
       return resultRow;
@@ -64,7 +62,11 @@ export const getStatistics = async (
   }
 
   return raw.data.map((r) => {
-    const resultRow: Row = { ...r };
+    const localHour = r.hour
+      ? convertUtcToLocalHour(date, r.hour, timezone)
+      : undefined;
+    const resultRow: Row = { ...r, hour: localHour };
+
     if (filters["Max CPM Winner"] && !resultRow["maxCpmWinner"])
       resultRow["maxCpmWinner"] = "-";
     if (filters["Top Winner by Count"] && !resultRow["topWinnerByCount"])

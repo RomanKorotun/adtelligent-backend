@@ -7,15 +7,17 @@ export const statisticsQuerySchema = {
   security: [{ cookieAuth: [] }],
   body: {
     type: "object",
-    required: ["date", "filters"],
+    required: ["date", "filters", "timezone"], // 👈 додаємо timezone як обов’язкове
     properties: {
       date: {
         type: "string",
         format: "date",
         description: "Date of events (YYYY-MM-DD)",
+        example: "2025-10-04",
       },
       filters: {
         type: "object",
+        description: "Filter conditions by field",
         patternProperties: {
           ".*": {
             type: "array",
@@ -23,7 +25,15 @@ export const statisticsQuerySchema = {
           },
         },
         additionalProperties: false,
-        description: "Filter conditions by field",
+        example: {
+          Hour: ["all"],
+          Bidders: ["adtelligent", "bidmatic"],
+        },
+      },
+      timezone: {
+        type: "string",
+        description: "IANA timezone string, e.g. 'Europe/Kyiv'",
+        example: "Europe/Kyiv",
       },
     },
     additionalProperties: false,

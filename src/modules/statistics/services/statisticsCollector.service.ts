@@ -1,13 +1,16 @@
 import { FastifyInstance, FastifyRequest } from "fastify";
 import { StatisticsCollectorBody } from "../schemas/statisticsCollector.schema";
 import * as cacheUtils from "../utils/cache.utils";
+import {
+  MAX_CACHE_SIZE,
+  FLUSH_INTERVAL_MS,
+} from "../constants/statistics.constants";
 
 const cache = new Set<StatisticsCollectorBody>();
-const MAX_CACHE_SIZE = 2000;
-const FLUSH_INTERVAL_MS = 10000;
 let interval: ReturnType<typeof setInterval> | null = null;
 
-const initInterval = (fastify: FastifyInstance) => {
+export const initInterval = (fastify: FastifyInstance) => {
+  if (interval) return;
   interval = setInterval(async () => {
     if (cache.size > 0) await flushCache(fastify);
   }, FLUSH_INTERVAL_MS);
@@ -24,8 +27,6 @@ export const addEvent = async (
   fastify: FastifyInstance,
   request: FastifyRequest
 ) => {
-  if (!interval) initInterval(fastify);
-
   cache.add(request.body as StatisticsCollectorBody);
 
   if (cache.size >= MAX_CACHE_SIZE) {
