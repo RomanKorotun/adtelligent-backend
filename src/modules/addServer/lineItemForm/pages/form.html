@@ -235,10 +235,13 @@
         formData.append("creativeFile", creativeInput.files[0]);
 
         try {
-          const res = await fetch("http://localhost:3000/submit", {
-            method: "POST",
-            body: formData,
-          });
+          const res = await fetch(
+            "https://adtelligent-frontend.vercel.app/submit",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
 
           if (res.ok) {
             resetForm();
