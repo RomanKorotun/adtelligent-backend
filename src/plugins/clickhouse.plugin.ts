@@ -5,7 +5,7 @@ import { FastifyInstance } from "fastify";
 export default fp(
   async (fastify: FastifyInstance) => {
     const ch: ClickHouseClient = createClient({
-      url: `http://${fastify.config.CLICKHOUSE_HOST}:${fastify.config.CLICKHOUSE_PORT}`,
+      url: `${fastify.config.CLICKHOUSE_PROTOCOL}://${fastify.config.CLICKHOUSE_HOST}:${fastify.config.CLICKHOUSE_PORT}`,
       username: fastify.config.CLICKHOUSE_USER,
       password: fastify.config.CLICKHOUSE_PASSWORD,
       database: fastify.config.CLICKHOUSE_DB,
