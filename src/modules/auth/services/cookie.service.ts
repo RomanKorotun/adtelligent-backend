@@ -12,15 +12,18 @@ export const setTokenCookie = (
   reply.setCookie("token", token, {
     httpOnly: true,
     secure: isProd,
-    sameSite: isProd ? "strict" : "lax",
+    sameSite: isProd ? "none" : "lax",
     path: "/",
     maxAge: tokenTime,
   });
 };
 
 export const clearTokenCookie = (reply: FastifyReply) => {
+  const isProd = process.env.NODE_ENV === "production";
+
   reply.clearCookie("token", {
     path: "/",
-    sameSite: isProd ? "strict" : "lax",
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
   });
 };
