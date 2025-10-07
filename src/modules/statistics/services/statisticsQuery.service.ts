@@ -35,6 +35,17 @@ export const getStatistics = async (
   const result = await fastify.clickhouse.query({ query });
   const raw = (await result.json()) as { data: Row[] };
 
+  if (raw.data.length === 0 && !filters["Hour"]?.includes("all")) {
+    const resultRow: Row = { date };
+    for (const key of Object.keys(filters)) {
+      if (key === "Hour") continue;
+      const alias = aliasMap[key];
+      resultRow[alias] =
+        alias === "maxCpmWinner" || alias === "topWinnerByCount" ? "-" : 0;
+    }
+    return [resultRow];
+  }
+
   if (filters["Hour"]?.includes("all")) {
     const hours = Array.from(
       { length: 24 },
