@@ -9,7 +9,7 @@ import {
   frequencyFilter,
   updateFrequencyCache,
 } from "../utils/filters/frequencyFilter";
-import { Payload } from "../types/bidHandler.types";
+import { KorotunAuctionBody } from "../schemas/korotunAuction.schema";
 
 const rotationCache = new Map<string, number>();
 const rotationCountCache = new Map<string, number>();
@@ -23,10 +23,7 @@ export const getAd = async (
   const geoData = geoip.lookup(ip);
   const country = geoData?.country;
 
-  const payload: Payload =
-    typeof request.body === "string"
-      ? JSON.parse(request.body)
-      : (request.body as Payload);
+  const payload = request.body as KorotunAuctionBody;
 
   const userAgent = request.headers["user-agent"] || "unknown";
   const userIdentifier =
@@ -94,5 +91,5 @@ export const getAd = async (
     };
   });
 
-  return response;
+  return response.filter((item) => item !== null);
 };

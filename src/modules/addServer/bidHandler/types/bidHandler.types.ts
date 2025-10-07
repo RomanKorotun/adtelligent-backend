@@ -7,9 +7,3 @@ export interface Bid {
   currency: string;
   adType: string;
 }
-
-export interface Payload {
-  auctionId: string | null;
-  referer: string;
-  bids: Bid[];
-}
